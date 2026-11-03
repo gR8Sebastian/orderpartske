@@ -378,12 +378,19 @@ textarea.af-in{resize:vertical;font-family:inherit}
 .brand-prev img{max-height:60px;max-width:100%;object-fit:contain;margin:0 auto 8px;display:block}
 .brand-prev .bp-lab{font:700 9px/1 var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
 
-.toast{position:fixed;left:50%;bottom:18px;z-index:120;transform:translate(-50%,150%);
+/* Toast — hidden state uses opacity + pointer-events so it disappears on ALL viewports */
+.toast{position:fixed;left:50%;bottom:18px;z-index:120;
+  transform:translate(-50%,150%);
   display:flex;align-items:center;gap:10px;padding:12px 40px 12px 16px;border-radius:var(--r);
   background:var(--ink);color:var(--bg);font:700 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;
-  max-width:calc(100% - 28px);pointer-events:auto;cursor:pointer;overflow:hidden;
-  transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s ease;will-change:transform}
-.toast.on{transform:translate(-50%,0)}
+  max-width:calc(100% - 28px);
+  opacity:0;visibility:hidden;pointer-events:none;cursor:pointer;overflow:hidden;
+  transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .25s ease,visibility 0s linear .3s;
+  will-change:transform,opacity}
+.toast.on{
+  transform:translate(-50%,0);
+  opacity:1;visibility:visible;pointer-events:auto;
+  transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .25s ease,visibility 0s linear 0s}
 .toast .ic{color:var(--wa)}
 .toast[data-t="warn"] .ic{color:#e0a020}
 .toast-x{position:absolute;top:50%;right:10px;transform:translateY(-50%);width:20px;height:20px;
@@ -403,12 +410,11 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
 .fab.top{opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s,transform .15s}
 .fab.top.on{opacity:1;visibility:visible}
 
+/* Mobile: hide "Browse by system" */
 @media(max-width:899px){
-  .landing-index{display:grid;grid-template-columns:1fr 1fr;column-gap:20px;border-top:0}
-  .li-head{grid-column:1/-1;border-top:1px solid #2b2723;padding-top:16px}
-  .li{font-size:14px;padding:12px 2px}
-  .li.all{grid-column:1/-1}
+  .landing-index{display:none!important}
 }
+
 @media(max-width:860px){
   .nav{display:none}
   .only-sm{display:inline-flex}
@@ -488,7 +494,6 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
   .landing-cta{gap:8px}
   .landing-phone{font-size:10px}
   .landing-ledger{font-size:9px;gap:8px 14px;padding:14px 0 30px;margin-top:30px}
-  .li{font-size:13px;padding:11px 2px}
   .grid{gap:8px}
   .card .b{padding:10px 8px;gap:4px}
   .card .f{padding:9px 8px;gap:6px}
@@ -575,7 +580,6 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
   .fab{width:48px;height:48px}
   .share-opt{min-height:48px}
   .adm-item .acts button{min-width:40px;min-height:40px}
-  .li{min-height:48px}
 }
 @media print{
   .hdr,.fabs,.ovl,.drawer,.landing,.toast,.share-wrap,#admin,#admin-login,#cart,.mod{display:none!important}
@@ -614,8 +618,9 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
 <header class="hdr">
   <div class="wrap bar">
     <a class="logo" href="#top" aria-label="OrderParts KE — Home">
-      <img id="brand-logo" class="logo-img hide" src="img/logo.jpeg" alt="OrderParts KE">
-      <span class="logo-fallback" id="logo-fallback">
+      <img id="brand-logo" class="logo-img" src="img/logo.jpeg" alt="OrderParts KE"
+           onerror="this.classList.add('hide');var f=document.getElementById('logo-fallback');if(f)f.classList.remove('hide')">
+      <span class="logo-fallback hide" id="logo-fallback">
         <span class="mark"></span>OrderParts<em>KE</em>
       </span>
     </a>
@@ -671,8 +676,7 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
           </h1>
 
           <p class="lede">
-            <strong>Right part, first time.</strong> Send the chassis, engine or part number —
-            we cross-check fitment before dispatch. Genuine and ex-Japan stock, delivered countrywide.
+            <strong>Right part, first time.</strong> Genuine and ex-Japan stock, delivered countrywide.
           </p>
 
           <div class="landing-cta">
@@ -704,7 +708,6 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
         <span>Ex-Japan stock</span>
         <span>Countrywide delivery</span>
         <span>M-PESA accepted</span>
-        <span>Flat shipping KES 500</span>
       </div>
     </div>
   </section>
@@ -712,7 +715,7 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
   <section class="sec wrap" id="featured">
     <div class="sec-h">
       <span class="n">01 /</span>
-      <h2>Featured</h2>
+      <h2>Featured Parts</h2>
       <a class="link" href="#shop">View all →</a>
     </div>
     <div class="grid" id="featured-grid"></div>
@@ -752,8 +755,9 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
   <div class="wrap">
     <div class="ftr-main">
       <div class="flogo" aria-label="OrderParts KE">
-        <img id="brand-logo-footer" class="flogo-img hide" src="img/logo.jpeg" alt="OrderParts KE">
-        <span class="flogo-fallback" id="flogo-fallback"><span class="mark"></span>OrderParts KE</span>
+        <img id="brand-logo-footer" class="flogo-img" src="img/logo.jpeg" alt="OrderParts KE"
+             onerror="this.classList.add('hide');var f=document.getElementById('flogo-fallback');if(f)f.classList.remove('hide')">
+        <span class="flogo-fallback hide" id="flogo-fallback"><span class="mark"></span>OrderParts KE</span>
       </div>
 
       <p class="ftr-line">
@@ -1169,6 +1173,9 @@ function rebuildIndexes() {
   });
 }
 
+/* Logo: HTML already shows img with src="img/logo.jpeg" and fallback hidden.
+   This function only updates src when the user uploads a custom logo, and
+   handles the case where that custom logo is removed. */
 function applyBrandLogo() {
   var hdrImg = $('#brand-logo');
   var hdrFall = $('#logo-fallback');
@@ -1178,43 +1185,48 @@ function applyBrandLogo() {
   var prevImg = $('#brand-prev-img');
   var picker = $('#brand-picker');
 
-  hdrImg.classList.add('hide');
-  hdrFall.classList.remove('hide');
-  ftrImg.classList.add('hide');
-  ftrFall.classList.remove('hide');
-
   if (!brandLogo) {
-    hdrImg.removeAttribute('src');
-    ftrImg.removeAttribute('src');
+    hdrImg.classList.add('hide');
+    hdrFall.classList.remove('hide');
+    ftrImg.classList.add('hide');
+    ftrFall.classList.remove('hide');
     if (prev) prev.classList.remove('on');
     if (picker) picker.classList.remove('has-logo');
     return;
   }
 
   function wire(img, fallback) {
+    img.onload = function () {
+      img.classList.remove('hide');
+      fallback.classList.add('hide');
+    };
     img.onerror = function () {
       img.onerror = null;
       img.classList.add('hide');
       fallback.classList.remove('hide');
     };
-    img.onload = function () {
+    var currentSrc = img.getAttribute('src') || '';
+    if (currentSrc !== brandLogo) {
       img.classList.remove('hide');
       fallback.classList.add('hide');
-    };
-    img.src = brandLogo;
-    if (img.complete && img.naturalWidth > 0) {
-      img.classList.remove('hide');
-      fallback.classList.add('hide');
+      img.src = brandLogo;
+    } else if (img.complete) {
+      if (img.naturalWidth > 0) {
+        img.classList.remove('hide');
+        fallback.classList.add('hide');
+      } else {
+        img.classList.add('hide');
+        fallback.classList.remove('hide');
+      }
     }
   }
-
   wire(hdrImg, hdrFall);
   wire(ftrImg, ftrFall);
 
   if (prevImg && prev) {
-    prevImg.onerror = function () { prev.classList.remove('on'); };
     prevImg.onload = function () { prev.classList.add('on'); };
-    prevImg.src = brandLogo;
+    prevImg.onerror = function () { prev.classList.remove('on'); };
+    if ((prevImg.getAttribute('src') || '') !== brandLogo) prevImg.src = brandLogo;
     if (prevImg.complete && prevImg.naturalWidth > 0) prev.classList.add('on');
   }
   if (picker) picker.classList.add('has-logo');
@@ -1256,8 +1268,7 @@ function toast(msg, type) {
   $('#toast-ic').setAttribute('href', type === 'warn' ? '#i-x' : '#i-check');
   $('#toast-txt').textContent = msg;
 
-  var wasVisible = el.classList.contains('on');
-  if (!wasVisible) el.classList.add('on');
+  el.classList.add('on');
 
   var bar = $('#toast-bar');
   if (bar) {
@@ -1985,7 +1996,7 @@ $$('#menu a').forEach(function (a) {
   });
 });
 
-$('#toast').addEventListener('click', function (e) {
+$('#toast').addEventListener('click', function () {
   dismissToast();
 });
 
