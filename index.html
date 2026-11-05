@@ -35,6 +35,7 @@
   --m:'Red Hat Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --shadow:0 20px 44px -26px rgba(20,17,13,.5);
   --shadow-sm:0 10px 22px -16px rgba(20,17,13,.5);
+  --hdr-h:104px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
@@ -43,6 +44,7 @@ body{
   font:400 15.5px/1.62 var(--f);
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   overflow-x:hidden;-webkit-tap-highlight-color:transparent;
+  text-rendering:optimizeLegibility;
 }
 /* paper grain */
 body::before{
@@ -67,6 +69,7 @@ mark{background:none;color:var(--acc);font-weight:800}
 .hide{display:none!important}
 .ic{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 section[id],footer[id]{scroll-margin-top:76px}
+.btn,.icbtn,.tab,.card,.qty button,.add,.share-opt{touch-action:manipulation}
 
 /* ---------- buttons ---------- */
 .btn{
@@ -199,19 +202,19 @@ section[id],footer[id]{scroll-margin-top:76px}
   display:inline-flex;align-items:center;gap:11px;font:700 9.5px/1 var(--m);letter-spacing:.2em;
   text-transform:uppercase;color:#8f877a;margin-bottom:26px;
 }
-.landing .eyebrow i{width:7px;height:7px;background:var(--acc);transform:rotate(45deg);animation:pulse 2.6s infinite}
+.landing .eyebrow i{width:7px;height:7px;background:var(--acc);transform:rotate(45deg);animation:pulse 2.6s infinite;flex:none}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.28}}
 .landing h1{
   font-family:var(--d);font-weight:800;
   font-size:clamp(2.35rem,6.2vw + .5rem,5.1rem);
   line-height:.87;letter-spacing:-.055em;margin-bottom:24px;text-transform:uppercase;
+  text-wrap:balance;
 }
 .landing h1 span{display:block}
 .landing h1 .dim{color:#5f5749}
 @supports (-webkit-text-stroke:1px #000){
   .landing h1 .dim{color:transparent;-webkit-text-stroke:1.1px #6f6656}
 }
-.landing h1 .acc{color:var(--acc)}
 .landing .lede{max-width:50ch;color:#a29a8b;font-size:16px;line-height:1.68;margin-bottom:30px}
 .landing .lede strong{color:var(--bg);font-weight:700}
 .landing-cta{display:flex;gap:10px;flex-wrap:wrap}
@@ -323,7 +326,7 @@ section[id],footer[id]{scroll-margin-top:76px}
 .card .p{font:800 16px/1 var(--d);letter-spacing:-.04em;white-space:nowrap;font-variant-numeric:tabular-nums}
 .card .f-btns{display:flex;align-items:center;gap:6px}
 .card .add{
-  display:inline-flex;align-items:center;gap:5px;min-height:32px;padding:0 10px;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:32px;padding:0 10px;
   border:1px solid var(--line2);border-radius:var(--r);
   font:700 9.5px/1 var(--m);letter-spacing:.1em;text-transform:uppercase;position:relative;
   transition:background .16s,color .16s,border-color .16s;
@@ -331,7 +334,7 @@ section[id],footer[id]{scroll-margin-top:76px}
 .card:hover .add{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .card .add.is-added{background:var(--wa)!important;color:#fff!important;border-color:var(--wa)!important;cursor:default}
 .card .add.is-added::after{
-  content:"";position:absolute;inset:-1px;border:1px solid var(--wa);border-radius:var(--r);
+  content:"";position:absolute;inset:-1px;border:1px solid var(--wa);border-radius:inherit;
   animation:added-ring .9s ease-out forwards;pointer-events:none;
 }
 @keyframes added-ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.16);opacity:0}}
@@ -353,6 +356,7 @@ section[id],footer[id]{scroll-margin-top:76px}
 .tabs{
   display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;
   border-bottom:1px solid var(--line);scrollbar-width:none;margin-bottom:16px;
+  -webkit-overflow-scrolling:touch;
 }
 .tabs::-webkit-scrollbar{display:none}
 .tab{
@@ -666,106 +670,155 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
 .fab.top{opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s,transform .16s}
 .fab.top.on{opacity:1;visibility:visible}
 
-/* ===================== responsive ===================== */
+/* =====================================================================
+   RESPONSIVE — mobile-first refinements
+   ===================================================================== */
+
+/* ---- hide system index on tablet/phone ---- */
 @media(max-width:899px){
   .landing-index{display:none!important}
 }
+
+/* ---- tablet / large phone ---- */
 @media(max-width:860px){
+  .hdr{--hdr-h:108px}
+  .bar{gap:10px;padding-top:10px;padding-bottom:10px}
   .nav{display:none}
   .only-sm{display:inline-flex}
+  .logo{font-size:17px;letter-spacing:-.045em}
+  .logo-img{max-height:40px;max-width:190px}
   .search{order:6;flex-basis:100%;margin-top:2px}
-  #q{font-size:16px}
-  .landing{padding-top:46px}
-  .landing-grid{gap:34px}
-  .sec{padding-top:46px;padding-bottom:46px}
-  .sec-h h2{font-size:20px}
-  .icbtn{width:44px;height:44px}
+  .search .s-ic{left:12px}
+  #q{padding:11px 12px 11px 36px;font-size:16px}
   .actions{gap:6px}
+  .icbtn{width:44px;height:44px}
+  .landing{padding-top:44px}
+  .landing-grid{gap:32px}
+  .sec{padding-top:44px;padding-bottom:44px}
+  .sec-h h2{font-size:20px}
   .qty button{width:38px;height:38px}
   .ci .rm{width:36px;height:36px}
   .adm-item .acts button{width:40px;height:40px}
-  .card .add{min-height:38px;padding:0 12px}
+  .card .add{min-height:36px;padding:0 11px}
+  section[id],footer[id]{scroll-margin-top:120px}
 }
+
+/* ---- phones ---- */
 @media(max-width:520px){
   .wrap{padding:0 18px}
-  .bar{padding-top:10px;padding-bottom:10px;gap:10px}
+  .bar{gap:8px 10px;padding-top:10px;padding-bottom:10px}
   .logo{font-size:16px}
-  .logo-img{max-height:38px;max-width:200px}
-  .flogo-img{max-height:34px;max-width:180px}
+  .logo-img{max-height:36px;max-width:170px}
+  .flogo-img{max-height:32px;max-width:160px}
+
+  /* hero */
+  .landing{padding-top:34px}
+  .landing .eyebrow{font-size:9px;letter-spacing:.16em;margin-bottom:20px}
+  .landing h1{font-size:clamp(1.85rem,7.4vw,2.7rem);line-height:.94;letter-spacing:-.05em;margin-bottom:20px}
+  .landing h1 .dim{-webkit-text-stroke-width:1px}
+  .landing .lede{font-size:15px;margin-bottom:26px;line-height:1.62}
+  .landing-cta{gap:8px}
+  .landing-cta .btn{flex:1;padding:0 12px;min-height:46px}
+  .landing-phone{margin-top:18px;font-size:9.5px;line-height:1.6}
+  .landing-ledger{margin-top:34px;padding:14px 0 34px;font-size:8.5px;gap:7px}
+  .landing-ledger span{padding:6px 9px}
+
+  /* sections */
+  .sec{padding-top:38px;padding-bottom:38px}
+  .sec-h{margin-bottom:20px;padding-bottom:11px;gap:10px}
+  .sec-h h2{font-size:19px}
+  .sec-h .n{font-size:9px;padding:5px 7px}
+  .sec-h .link{font-size:9px}
+
+  /* grid + cards */
   .grid{gap:10px}
-  .card .b{padding:11px 10px}
-  .card .f{padding:10px}
-  .card h3{font-size:14px}
+  .card .b{padding:11px 10px;gap:5px}
+  .card .cat{font-size:8.5px;letter-spacing:.14em}
+  .card h3{font-size:13.5px;line-height:1.28}
+  .card .d{font-size:12px}
+  .card .st{font-size:8.5px}
+  .card .f{padding:10px;gap:6px}
   .card .p{font-size:14px}
-  .card .add{font-size:9px;padding:0 8px;min-height:30px}
+  /* icon-only add button on phones */
+  .card .add{
+    width:38px;min-width:38px;height:38px;min-height:38px;
+    padding:0;border-radius:50%;gap:0;
+  }
+  .card .add .add-txt{display:none}
+  .card .add .ic{width:16px;height:16px}
+
+  /* tabs + meta */
+  .tabs{margin-bottom:14px;gap:1px}
+  .tab{padding:11px 11px;font-size:9px}
+  .meta{padding:10px 0;margin-bottom:18px;font-size:9px}
+
+  /* product modal */
   .mod{padding:0}
   .mod-panel{border:0;border-radius:0;min-height:100%;box-shadow:none}
-  .drawer{max-width:100%}
-  .fabs{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
-  .ftr-line{font-size:12.5px;line-height:1.85}
-  .ftr-bottom{justify-content:center;text-align:center}
-  .landing{padding-top:38px}
-  .landing h1{line-height:.9}
-  .landing .lede{font-size:15px;margin-bottom:26px}
-  .landing-phone{margin-top:18px}
-  .card .add{min-height:34px;padding:0 10px;font-size:9px}
-  .mod-h{padding:14px 16px}
+  .mod-media{padding:14px}
+  .mod-info{padding:20px 16px}
+  .mod-info h2{font-size:21px}
   .mod-h .share-btn,.mod-h .x{width:40px;height:40px}
-  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
-  .d-f{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
-  .d-body{padding-bottom:env(safe-area-inset-bottom,0px)}
-  .show-more-wrap .btn{width:100%;padding:0 18px}
-  .landing-ledger{padding:16px 0 38px;margin-top:36px}
-}
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+
+  /* drawers */
+  .drawer{max-width:100%}
+  .d-h{padding:14px 16px}
+  .d-body{padding:0 16px}
+  .d-f{padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+
+  /* fabs + toast */
+  .fabs{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(82px + env(safe-area-inset-bottom,0px));padding:12px 38px 12px 15px}
+
+  /* footer */
+  .ftr{padding:32px 0 calc(16px + env(safe-area-inset-bottom,0px))}
+  .ftr-main{flex-direction:column;align-items:center;text-align:center;gap:14px}
+  .ftr-line{font-size:12.5px;line-height:1.8;text-align:center}
+  .ftr-bottom{justify-content:center;text-align:center}
+
+  /* misc */
+  .show-more-wrap{padding:26px 0 4px;margin-top:24px}
+  .show-more-wrap .btn{width:100%;padding:0 16px}
 }
 
-.af-in,#al-pass,#af-description{font-size:16px}
-@media(max-width:640px){
-  #admin{max-width:100%!important}
-  #admin-login{padding:0!important;align-items:stretch!important}
-  #admin-login .mod-panel{max-width:100%!important;border:0!important;border-radius:0!important;min-height:100vh;margin:0!important}
-  .adm-form-row{grid-template-columns:1fr}
-}
-#admin .d-h{flex-wrap:wrap}
-#admin .d-h > div:last-child{flex-wrap:wrap}
-
+/* ---- very small phones ---- */
 @media(max-width:380px){
-  .wrap{padding:0 16px}
-  .bar{gap:10px;padding-top:9px;padding-bottom:9px}
+  .wrap{padding:0 15px}
+  .bar{gap:8px;padding-top:9px;padding-bottom:9px}
   .logo{font-size:15px;gap:7px}
-  .logo-img{max-height:32px;max-width:160px}
-  .flogo-img{max-height:30px;max-width:150px}
+  .logo-img{max-height:32px;max-width:150px}
+  .flogo-img{max-height:28px;max-width:140px}
   .logo .mark{width:9px;height:9px}
-  .icbtn{width:38px;height:38px}
-  .actions{gap:6px}
-  .landing{padding-top:28px}
-  .landing .eyebrow{font-size:9px;margin-bottom:18px}
-  .landing h1{font-size:clamp(1.95rem,9vw,2.8rem)}
-  .landing .lede{font-size:14.5px;margin-bottom:24px}
-  .landing-cta{gap:8px}
-  .landing-phone{font-size:9.5px}
-  .landing-ledger{font-size:8.5px;gap:7px;padding:14px 0 32px;margin-top:32px}
-  .grid{gap:8px}
-  .card .b{padding:10px 8px;gap:5px}
-  .card .f{padding:9px 8px;gap:6px}
-  .card h3{font-size:13px}
-  .card .d{font-size:12px}
-  .card .p{font-size:13px}
-  .card .add{font-size:8.5px;padding:0 7px;min-height:28px}
-  .card .ref{font-size:8.5px;padding:4px 5px}
-  .card .tag{font-size:8px;padding:4px 5px}
-  .sec{padding-top:32px;padding-bottom:32px}
+  .icbtn{width:40px;height:40px}
+  .actions{gap:5px}
+
+  .landing{padding-top:26px}
+  .landing .eyebrow{font-size:8.5px;margin-bottom:16px}
+  .landing h1{font-size:clamp(1.6rem,7vw,2rem);line-height:.96;margin-bottom:18px}
+  .landing .lede{font-size:14px;margin-bottom:22px}
+  .landing-cta .btn{font-size:9px;padding:0 10px;min-height:42px}
+  .landing-phone{font-size:9px}
+  .landing-ledger{font-size:8px;gap:6px;padding:12px 0 28px;margin-top:28px}
+  .landing-ledger span{padding:5px 8px}
+
+  .sec{padding-top:30px;padding-bottom:30px}
   .sec-h h2{font-size:17px}
-  .sec-h .n{font-size:9px}
-  .sec-h .link{font-size:9px}
-  .ftr{padding:26px 0 14px}
-  .ftr .wrap{gap:12px}
-  .flogo{font-size:17px}
+
+  .grid{gap:8px}
+  .card .b{padding:10px 9px;gap:4px}
+  .card .f{padding:9px}
+  .card h3{font-size:13px}
+  .card .d{font-size:11.5px}
+  .card .p{font-size:13px}
+  .card .add{width:34px;min-width:34px;height:34px;min-height:34px}
+  .card .add .ic{width:15px;height:15px}
+  .card .ref{font-size:8px;padding:4px 6px}
+  .card .tag{font-size:7.5px;padding:4px 5px}
+
+  .ftr{padding:26px 0 calc(14px + env(safe-area-inset-bottom,0px))}
   .ftr-line{font-size:11.5px}
   .ftr-social a{width:36px;height:36px}
+
   .d-h{padding:12px 14px}
   .d-h b{font-size:14px}
   .d-body{padding:0 14px}
@@ -775,30 +828,37 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
   .ci .mt{font-size:9px}
   .ci .ln{font-size:12px}
   .qty button{width:34px;height:34px}
-  .qty span{min-width:22px;font-size:10px}
+  .qty span{min-width:24px;font-size:10px}
   .ci .rm{width:30px;height:30px}
-  .d-f{padding:14px}
+  .d-f{padding:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
   .grand b{font-size:19px}
-  .btn{min-height:40px;padding:0 14px;font-size:10px}
-  .mod-h{padding:10px 14px}
+
+  .btn{min-height:42px;padding:0 14px;font-size:9.5px}
+  .mod-h{padding:12px 14px}
   .mod-info{padding:18px 14px}
-  .mod-info h2{font-size:20px}
+  .mod-info h2{font-size:19px}
+
   .share-product{padding:12px 14px}
   .share-product img{width:44px;height:44px}
-  .share-link{padding:10px 12px}
+  .share-link{padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
   .share-opt{padding:12px}
+
   .adm-item{grid-template-columns:40px 1fr auto;gap:10px}
   .adm-item img{width:40px;height:40px}
   .adm-item .acts button{width:34px;height:34px}
-  .af-in{padding:9px 10px}
-  .toast{padding:11px 36px 11px 14px;font-size:9px}
-  .fab{width:40px;height:40px}
-  .tab{padding:11px 11px;font-size:9px}
+  .af-in{padding:10px 11px}
+
+  .toast{padding:11px 36px 11px 14px;font-size:9px;bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+  .fab{width:42px;height:42px}
+  .tab{padding:10px 10px;font-size:8.5px}
 }
+
 @media(max-width:340px){
   .ci{grid-template-columns:44px 1fr}
   .ci .rt{grid-column:1 / -1;flex-direction:row;justify-content:space-between;align-items:center;padding-top:9px;border-top:1px dashed var(--line)}
 }
+
+/* ---- landscape phones ---- */
 @media(max-height:500px) and (orientation:landscape){
   .landing{padding-top:20px}
   .landing h1{font-size:clamp(1.6rem,5vh + .4rem,2.6rem);line-height:.92;margin-bottom:14px}
@@ -815,29 +875,57 @@ body.footer-inview .fabs{opacity:0;pointer-events:none;transform:translateY(10px
   #admin-login{padding:12px!important;align-items:center!important}
   #admin-login .mod-panel{min-height:auto}
 }
+
+/* ---- mid tablets ---- */
 @media(min-width:641px) and (max-width:1024px){
   .landing h1{font-size:clamp(2.4rem,5.5vw + .4rem,3.9rem)}
   .landing-grid{gap:36px}
   .sec{padding-top:52px;padding-bottom:52px}
   .card h3{font-size:14px}
 }
+
 @media(min-width:1440px){
   .wrap{padding:0 26px}
   .landing{padding-top:84px}
   .grid{gap:20px}
 }
+
+/* ---- touch devices ---- */
 @media(hover:none) and (pointer:coarse){
   .icbtn{min-width:44px;min-height:44px}
   .qty button{min-width:38px;min-height:38px}
-  .card .add{min-height:38px}
   .tab{min-height:44px}
   .d-a .btn{min-height:48px}
   .fab{width:48px;height:48px}
   .share-opt{min-height:48px}
   .adm-item .acts button{min-width:40px;min-height:40px}
-  .card:hover{transform:none}
+  /* kill hover-only motion on touch, add press feedback */
+  .card:hover{transform:none;box-shadow:none;border-color:var(--line)}
+  .card:hover::before{transform:scaleX(0)}
+  .card:hover .ph img{transform:none;filter:saturate(.94)}
+  .card:hover .add{background:transparent;color:var(--ink);border-color:var(--line2)}
   .btn:hover{transform:none;box-shadow:none}
+  .btn:active{transform:scale(.985)}
+  .card:active{transform:scale(.995);border-color:var(--ink)}
+  .card:active::before{transform:scaleX(1)}
+  .card:active .add{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 }
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+
+.af-in,#al-pass,#af-description{font-size:16px}
+@media(max-width:640px){
+  #admin{max-width:100%!important}
+  #admin-login{padding:0!important;align-items:stretch!important}
+  #admin-login .mod-panel{max-width:100%!important;border:0!important;border-radius:0!important;min-height:100vh;margin:0!important}
+  .adm-form-row{grid-template-columns:1fr}
+}
+#admin .d-h{flex-wrap:wrap}
+#admin .d-h > div:last-child{flex-wrap:wrap}
+
 @media print{
   .hdr,.fabs,.ovl,.drawer,.landing,.toast,.share-wrap,#admin,#admin-login,#cart,.mod{display:none!important}
   body{background:#fff;color:#000}
@@ -1551,7 +1639,7 @@ function flashAdded(btn) {
   var origDisabled = btn.disabled;
   btn.classList.add('is-added');
   btn.disabled = true;
-  btn.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Added';
+  btn.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span class="add-txt">Added</span>';
   setTimeout(function () {
     btn.classList.remove('is-added');
     btn.disabled = origDisabled;
@@ -1641,7 +1729,7 @@ function cardHTML(p) {
       + '<span class="p">' + money(p.price) + '</span>'
       + '<div class="f-btns">'
         + '<button class="add" data-add="' + p.id + '" aria-label="Add ' + esc(p.name) + ' to cart">'
-          + 'Add <svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>'
+          + '<span class="add-txt">Add</span> <svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>'
         + '</button>'
       + '</div>'
     + '</div>'
